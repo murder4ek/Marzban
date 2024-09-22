@@ -21,7 +21,7 @@ def usage_command(message):
         dbuser = crud.get_user(db, username)
 
         if not dbuser:
-            return bot.reply_to(message, "No user found with this username")
+            return bot.reply_to(message, "Пользователя с таким именем пользователя не найдено")
         user = UserResponse.from_orm(dbuser)
 
         statuses = {
@@ -32,7 +32,7 @@ def usage_command(message):
 
         text = f'''\
 ┌─{statuses[user.status]} <b>Status:</b> <code>{user.status.title()}</code>
-│          └─<b>Username:</b> <code>{user.username}</code>
+│          └─<b>Пользователь:</b> <code>{user.username}</code>
 │
 ├─🔋 <b>Data limit:</b> <code>{readable_size(user.data_limit) if user.data_limit else 'Unlimited'}</code>
 │          └─<b>Data Used:</b> <code>{readable_size(user.used_traffic) if user.used_traffic else "-"}</code>

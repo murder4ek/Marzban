@@ -44,24 +44,24 @@ def get_system_info():
         active_users = crud.get_users_count(db, UserStatus.active)
         onhold_users = crud.get_users_count(db, UserStatus.on_hold)
     return """\
-🎛 *CPU Cores*: `{cpu_cores}`
-🖥 *CPU Usage*: `{cpu_percent}%`
+🎛 *Ядра ЦП*: `{cpu_cores}`
+🖥 *Использование ЦП*: `{cpu_percent}%`
 ➖➖➖➖➖➖➖
-📊 *Total Memory*: `{total_memory}`
-📈 *In Use Memory*: `{used_memory}`
-📉 *Free Memory*: `{free_memory}`
+📊 *Общий объем памяти*: `{total_memory}`
+📈 *Используется память*: `{used_memory}`
+📉 *Свободная память*: `{free_memory}`
 ➖➖➖➖➖➖➖
-⬇️ *Download Usage*: `{down_bandwidth}`
-⬆️ *Upload Usage*: `{up_bandwidth}`
-↕️ *Total Usage*: `{total_bandwidth}`
+⬇️ *Загружено*: `{down_bandwidth}`
+⬆️ *Выгружено*: `{up_bandwidth}`
+↕️ *Общее*: `{total_bandwidth}`
 ➖➖➖➖➖➖➖
-👥 *Total Users*: `{total_users}`
-🟢 *Active Users*: `{active_users}`
-🟣 *OnHold Users*: `{onhold_users}`
-🔴 *Deactivate Users*: `{deactivate_users}`
+👥 *Пользователей*: `{total_users}`
+🟢 *Активных пользователей*: `{active_users}`
+🟣 *Не активных пользователей*: `{onhold_users}`
+🔴 *Деактивированных пользователей*: `{deactivate_users}`
 ➖➖➖➖➖➖➖
-⏫ *Upload Speed*: `{up_speed}/s`
-⏬ *Download Speed*: `{down_speed}/s`
+⏫ *Скорость выгрузки*: `{up_speed}/s`
+⏬ *Скорость загрузки*: `{down_speed}/s`
 """.format(
         cpu_cores=cpu.cores,
         cpu_percent=cpu.percent,
@@ -102,10 +102,10 @@ def help_command(message: types.Message):
     cleanup_messages(message.chat.id)
     bot.clear_step_handler_by_chat_id(message.chat.id)
     return bot.reply_to(message, """
-{user_link} Welcome to Marzban Telegram-Bot Admin Panel.
-Here you can manage your users and proxies.
-To get started, use the buttons below.
-Also, You can get and modify users by /user command.
+{user_link} Добро пожаловать в панель администратора Marzban Telegram-Bot.
+Здесь вы можете управлять своими пользователями и прокси.
+Чтобы начать, используйте кнопки ниже.
+Кроме того, вы можете получать и изменять пользователей с помощью команды /user.
 """.format(
         user_link=user_link(message.from_user)
     ), parse_mode="html", reply_markup=BotKeyboard.main_menu())
@@ -125,7 +125,7 @@ def system_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('restart'), is_admin=True)
 def restart_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        '⚠️ Are you sure? This will restart Xray core.',
+        '⚠️ Вы уверены? Это перезапустит ядро ​​Xray.',
         call.message.chat.id,
         call.message.message_id,
         reply_markup=BotKeyboard.confirm_action(action='restart')
@@ -136,7 +136,7 @@ def restart_command(call: types.CallbackQuery):
 def delete_user_command(call: types.CallbackQuery):
     username = call.data.split(':')[1]
     bot.edit_message_text(
-        f'⚠️ Are you sure? This will delete user `{username}`.',
+        f'⚠️ Вы уверены? Это приведет к удалению пользователя `{username}`.',
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -149,7 +149,7 @@ def delete_user_command(call: types.CallbackQuery):
 def suspend_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will suspend user `{username}`.",
+        f"⚠️ Вы уверены? Это приведет к блокировке пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -162,7 +162,7 @@ def suspend_user_command(call: types.CallbackQuery):
 def activate_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will activate user `{username}`.",
+        f"⚠️ Вы уверены? Это активирует пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -175,7 +175,7 @@ def activate_user_command(call: types.CallbackQuery):
 def reset_usage_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will Reset Usage of user `{username}`.",
+        f"⚠️ Вы уверены? Это приведет к сбросу использования пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -194,12 +194,12 @@ def edit_all_command(call: types.CallbackQuery):
         limited_users = crud.get_users_count(db, UserStatus.limited)
         onhold_users = crud.get_users_count(db, UserStatus.on_hold)
         text = f'''
-👥 *Total Users*: `{total_users}`
-✅ *Active Users*: `{active_users}`
-❌ *Disabled Users*: `{disabled_users}`
-🕰 *Expired Users*: `{expired_users}`
-🪫 *Limited Users*: `{limited_users}`
-🔌 *OnHold Users*: `{onhold_users}`'''
+👥 *Пользователи*: `{total_users}`
+✅ *Активных пользователей*: `{active_users}`
+❌ *Неактивные пользователи*: `{disabled_users}`
+🕰 *Пользователи с истекшим сроком действия*: `{expired_users}`
+🪫 *Ограниченные пользователи*: `{limited_users}`
+🔌 *Пользователи в режиме ожидания*: `{onhold_users}`'''
     return bot.edit_message_text(
         text,
         call.message.chat.id,
@@ -212,7 +212,7 @@ def edit_all_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('delete_expired'), is_admin=True)
 def delete_expired_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will *DELETE All Expired Users*‼️",
+        f"⚠️ Вы уверены? Это приведет к *УДАЛЕНИЮ всех пользователей с истекшим сроком действия*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -222,7 +222,7 @@ def delete_expired_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('delete_limited'), is_admin=True)
 def delete_limited_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will *DELETE All Limited Users*‼️",
+        f"⚠️ Вы уверены? Это приведет к *УДАЛЕНИЮ всех пользователей с ограниченными правами*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -232,7 +232,7 @@ def delete_limited_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('add_data'), is_admin=True)
 def add_data_command(call: types.CallbackQuery):
     msg = bot.edit_message_text(
-        f"🔋 Enter Data Limit to increase or decrease (GB):",
+        f"🔋 Введите лимит данных для увеличения или уменьшения (ГБ):",
         call.message.chat.id,
         call.message.message_id,
         reply_markup=BotKeyboard.inline_cancel_action())
@@ -247,13 +247,13 @@ def add_data_step(message):
         if not data_limit:
             raise ValueError
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be a number and not zero.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Предел данных должен быть числом, а не нулем.')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, add_data_step)
     schedule_delete_message(message.chat.id, message.message_id)
     msg = bot.send_message(
         message.chat.id,
-        f"⚠️ Are you sure? this will change Data limit of all users according to <b>"
+        f"⚠️ Вы уверены? это изменит лимит данных для всех пользователей в соответствии с <b>"
         f"{'+' if data_limit > 0 else '-'}{readable_size(abs(data_limit *1024*1024*1024))}</b>",
         parse_mode="html",
         reply_markup=BotKeyboard.confirm_action('add_data', data_limit))
@@ -264,7 +264,7 @@ def add_data_step(message):
 @bot.callback_query_handler(cb_query_equals('add_time'), is_admin=True)
 def add_time_command(call: types.CallbackQuery):
     msg = bot.edit_message_text(
-        f"📅 Enter Days to increase or decrease expiry:",
+        f"📅 Введите дни, чтобы увеличить или уменьшить срок действия:",
         call.message.chat.id,
         call.message.message_id,
         reply_markup=BotKeyboard.inline_cancel_action())
@@ -279,13 +279,13 @@ def add_time_step(message):
         if not days:
             raise ValueError
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Days must be as a number and not zero.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Дни должны быть числовыми, а не нулевыми.')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, add_time_step)
     schedule_delete_message(message.chat.id, message.message_id)
     msg = bot.send_message(
         message.chat.id,
-        f"⚠️ Are you sure? this will change Expiry Time of all users according to <b>{days} Days</b>",
+        f"⚠️ Вы уверены? это изменит срок действия всех пользователей в соответствии с <b>{days} Днями</b>",
         parse_mode="html",
         reply_markup=BotKeyboard.confirm_action('add_time', days))
     cleanup_messages(message.chat.id)
@@ -305,7 +305,7 @@ def inbound_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_startswith("confirm_inbound"), is_admin=True)
 def delete_expired_confirm_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will *{call.data[16:].replace(':', ' ')} for All Users*‼️",
+        f"⚠️ Вы уверены? Это будет *{call.data[16:].replace(':', ' ')} для всех пользователей*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -321,7 +321,7 @@ def edit_command(call: types.CallbackQuery):
         if not db_user:
             return bot.answer_callback_query(
                 call.id,
-                '❌ User not found.',
+                '❌ Пользователь не найден.',
                 show_alert=True
             )
         user = UserResponse.from_orm(db_user)
@@ -333,7 +333,7 @@ def edit_command(call: types.CallbackQuery):
         f'{call.message.chat.id}:protocols',
         {protocol.value: inbounds for protocol, inbounds in db_user.inbounds.items()})
     bot.edit_message_text(
-        f"📝 Editing user `{username}`",
+        f"📝 Редактирование пользователя `{username}`",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -351,7 +351,7 @@ def edit_command(call: types.CallbackQuery):
 def help_edit_command(call: types.CallbackQuery):
     bot.answer_callback_query(
         call.id,
-        text="Press the (✏️ Edit) button to edit",
+        text="Нажмите кнопку (✏️ Редактировать), чтобы отредактировать",
         show_alert=True
     )
 
@@ -376,7 +376,7 @@ def edit_user_command(call: types.CallbackQuery):
     if action == "data":
         msg = bot.send_message(
             call.message.chat.id,
-            '⬆️ Enter Data Limit (GB):\n⚠️ Send 0 for unlimited.',
+            '⬆️ Введите лимит данных (ГБ):\n⚠️ Отправьте 0 для неограниченного количества данных.',
             reply_markup=BotKeyboard.inline_cancel_action(f'user:{username}')
         )
         mem_store.set(f"{call.message.chat.id}:edit_msg_text", call.message.text)
@@ -387,7 +387,7 @@ def edit_user_command(call: types.CallbackQuery):
     elif action == "expire":
         msg = bot.send_message(
             call.message.chat.id,
-            '⬆️ Enter Expire Date (YYYY-MM-DD)\nOr You Can Use Regex Symbol: ^[0-9]{1,3}(M|D) :\n⚠️ Send 0 for never expire.',
+            '⬆️ Введите дату истечения срока действия (ГГГГ-ММ-ДД)\nИли вы можете использовать символ регулярного выражения: ^[0-9]{1,3}(M|D):\n⚠️ Отправьте 0, чтобы срок действия никогда не истекал.',
             reply_markup=BotKeyboard.inline_cancel_action(f'user:{username}'))
         mem_store.set(f"{call.message.chat.id}:edit_msg_text", call.message.text)
         bot.clear_step_handler_by_chat_id(call.message.chat.id)
@@ -399,12 +399,12 @@ def edit_user_command(call: types.CallbackQuery):
 def edit_user_data_limit_step(message: types.Message, username: str):
     try:
         if float(message.text) < 0:
-            wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be greater or equal to 0.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Предел данных должен быть больше или равен 0.')
             schedule_delete_message(message.chat.id, wait_msg.message_id)
             return bot.register_next_step_handler(wait_msg, edit_user_data_limit_step, username=username)
         data_limit = float(message.text) * 1024 * 1024 * 1024
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be a number.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Предел данных должен быть числом.')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, edit_user_data_limit_step, username=username)
     mem_store.set(f'{message.chat.id}:data_limit', data_limit)
@@ -413,7 +413,7 @@ def edit_user_data_limit_step(message: types.Message, username: str):
     mem_store.delete(f"{message.chat.id}:edit_msg_text")
     bot.send_message(
         message.chat.id,
-        text or f"📝 Editing user <code>{username}</code>",
+        text or f"📝 Редактирование пользователя <code>{username}</code>",
         parse_mode="html",
         reply_markup=BotKeyboard.select_protocols(
             mem_store.get(f'{message.chat.id}:protocols'), "edit",
@@ -447,13 +447,13 @@ def edit_user_expire_step(message: types.Message, username: str):
         else:
             expire_date = None
         if expire_date and expire_date < today:
-            wait_msg = bot.send_message(message.chat.id, '❌ Expire date must be greater than today.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Дата истечения срока действия должна быть больше, чем сегодня.')
             schedule_delete_message(message.chat.id, wait_msg.message_id)
             return bot.register_next_step_handler(wait_msg, edit_user_expire_step, username=username)
     except ValueError:
         wait_msg = bot.send_message(
             message.chat.id,
-            '❌ Expire date must be in YYYY-MM-DD format.\nOr You Can Use Regex Symbol: ^[0-9]{1,3}(M|D)')
+            '❌ Дата истечения срока действия должна быть в формате ГГГГ-ММ-ДД.\nИли вы можете использовать символ регулярного выражения: ^[0-9]{1,3}(M|D)')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, edit_user_expire_step, username=username)
 
@@ -463,7 +463,7 @@ def edit_user_expire_step(message: types.Message, username: str):
     mem_store.delete(f"{message.chat.id}:edit_msg_text")
     bot.send_message(
         message.chat.id,
-        text or f"📝 Editing user <code>{username}</code>",
+        text or f"📝 Редактирование пользователя <code>{username}</code>",
         parse_mode="html",
         reply_markup=BotKeyboard.select_protocols(
             mem_store.get(f'{message.chat.id}:protocols'), "edit",
@@ -477,7 +477,7 @@ def users_command(call: types.CallbackQuery):
     with GetDB() as db:
         total_pages = math.ceil(crud.get_users_count(db) / 10)
         users = crud.get_users(db, offset=(page - 1) * 10, limit=10, sort=[crud.UsersSortingOptions["-created_at"]])
-        text = """👥 Users: (Page {page}/{total_pages})
+        text = """👥 Пользователи: (Page {page}/{total_pages})
 ✅ Active
 ❌ Disabled
 🕰 Expired
@@ -507,7 +507,7 @@ def get_user_info_text(
     }
     text = f'''\
 ┌─{statuses[status]} <b>Status:</b> <code>{status.title()}</code>
-│          └─<b>Username:</b> <code>{username}</code>
+│          └─<b>Пользователи:</b> <code>{username}</code>
 │
 ├─🔋 <b>Data limit:</b> <code>{readable_size(data_limit) if data_limit else 'Unlimited'}</code>
 │          └─<b>Data Used:</b> <code>{readable_size(usage) if usage else "-"}</code>

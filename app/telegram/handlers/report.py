@@ -29,16 +29,16 @@ def report(admin_id: int, message: str, parse_mode="html", keyboard=None):
 def report_new_user(user_id: int, username: str, by: str, expire_date: int, data_limit: int, proxies: list, 
                     data_limit_reset_strategy:UserDataLimitResetStrategy, admin: Admin = None):
     text = '''\
-🆕 <b>#Created</b>
+🆕 <b>#Создать</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username :</b> <code>{username}</code>
-<b>Traffic Limit :</b> <code>{data_limit}</code>
-<b>Expire Date :</b> <code>{expire_date}</code>
-<b>Proxies :</b> <code>{proxies}</code>
-<b>Data Limit Reset Strategy :</b> <code>{data_limit_reset_strategy}</code>
+<b>Никнейм :</b> <code>{username}</code>
+<b>Лимит трафика :</b> <code>{data_limit}</code>
+<b>Дата истечения срока действия :</b> <code>{expire_date}</code>
+<b>Прокси :</b> <code>{proxies}</code>
+<b>Стратегия сброса лимита данных :</b> <code>{data_limit_reset_strategy}</code>
 ➖➖➖➖➖➖➖➖➖
-<b>Belongs To :</b> <code>{belong_to}</code>
-<b>By :</b> <b>#{by}</b>'''.format(
+<b>Принадлежит :</b> <code>{belong_to}</code>
+<b>К :</b> <b>#{by}</b>'''.format(
         belong_to=escape_html(admin.username) if admin else None,
         by=escape_html(by),
         username=escape_html(username),
@@ -62,16 +62,16 @@ def report_new_user(user_id: int, username: str, by: str, expire_date: int, data
 def report_user_modification(username: str, expire_date: int, data_limit: int, proxies: list, by: str, 
                              data_limit_reset_strategy:UserDataLimitResetStrategy, admin: Admin = None):
     text = '''\
-✏️ <b>#Modified</b>
+✏️ <b>#Редактировать</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username :</b> <code>{username}</code>
-<b>Traffic Limit :</b> <code>{data_limit}</code>
-<b>Expire Date :</b> <code>{expire_date}</code>
-<b>Protocols :</b> <code>{protocols}</code>
-<b>Data Limit Reset Strategy :</b> <code>{data_limit_reset_strategy}</code>
+<b>Никнейм :</b> <code>{username}</code>
+<b>Лимит трафика :</b> <code>{data_limit}</code>
+<b>Дата истечения срока действия :</b> <code>{expire_date}</code>
+<b>Протоколы :</b> <code>{protocols}</code>
+<b>Стратегия сброса лимита данных :</b> <code>{data_limit_reset_strategy}</code>
 ➖➖➖➖➖➖➖➖➖
-<b>Belongs To :</b> <code>{belong_to}</code>
-<b>By :</b> <b>#{by}</b>\
+<b>Принадлежит :</b> <code>{belong_to}</code>
+<b>к :</b> <b>#{by}</b>\
     '''.format(
         belong_to=escape_html(admin.username) if admin else None,
         by=escape_html(by),
@@ -93,12 +93,12 @@ def report_user_modification(username: str, expire_date: int, data_limit: int, p
 
 def report_user_deletion(username: str, by: str, admin: Admin = None):
     text = '''\
-🗑 <b>#Deleted</b>
+🗑 <b>#Удалить</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
+<b>Никнейм</b> : <code>{username}</code>
 ➖➖➖➖➖➖➖➖➖
-<b>Belongs To :</b> <code>{belong_to}</code>
-<b>By</b> : <b>#{by}</b>\
+<b>Принадлежит :</b> <code>{belong_to}</code>
+<b>к</b> : <b>#{by}</b>\
     '''.format(
         belong_to=escape_html(admin.username) if admin else None,
         by=escape_html(by),
@@ -112,16 +112,16 @@ def report_user_deletion(username: str, by: str, admin: Admin = None):
 
 def report_status_change(username: str, status: str, admin: Admin = None):
     _status = {
-        'active': '✅ <b>#Activated</b>',
-        'disabled': '❌ <b>#Disabled</b>',
-        'limited': '🪫 <b>#Limited</b>',
-        'expired': '🕔 <b>#Expired</b>'
+        'active': '✅ <b>#Активированный</b>',
+        'disabled': '❌ <b>#Заблокированный</b>',
+        'limited': '🪫 <b>#Лимит</b>',
+        'expired': '🕔 <b>#Время</b>'
     }
     text = '''\
 {status}
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
-<b>Belongs To :</b> <code>{belong_to}</code>\
+<b>Никнейм</b> : <code>{username}</code>
+<b>Принадлежит :</b> <code>{belong_to}</code>\
     '''.format(
         belong_to=escape_html(admin.username) if admin else None,
         username=escape_html(username),
@@ -135,12 +135,12 @@ def report_status_change(username: str, status: str, admin: Admin = None):
 
 def report_user_usage_reset(username: str, by: str, admin: Admin = None):
     text = """  
-🔁 <b>#Reset</b>
+🔁 <b>#Перезагрузить</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
+<b>Никнейм</b> : <code>{username}</code>
 ➖➖➖➖➖➖➖➖➖
-<b>Belongs To :</b> <code>{belong_to}</code>
-<b>By</b> : <b>#{by}</b>\
+<b>Принадлежит :</b> <code>{belong_to}</code>
+<b>К</b> : <b>#{by}</b>\
     """.format(
         belong_to=escape_html(admin.username) if admin else None,
         by=escape_html(by),
@@ -155,12 +155,12 @@ def report_user_usage_reset(username: str, by: str, admin: Admin = None):
 
 def report_user_subscription_revoked(username: str, by: str, admin: Admin = None):
     text = """  
-🔁 <b>#Revoked</b>
+🔁 <b>#Отозван</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
+<b>Никнейм</b> : <code>{username}</code>
 ➖➖➖➖➖➖➖➖➖
-<b>Belongs To :</b> <code>{belong_to}</code>
-<b>By</b> : <b>#{by}</b>\
+<b>Принадлежит :</b> <code>{belong_to}</code>
+<b>К</b> : <b>#{by}</b>\
     """.format(
         belong_to=escape_html(admin.username) if admin else None,
         by=escape_html(by),
@@ -174,11 +174,11 @@ def report_user_subscription_revoked(username: str, by: str, admin: Admin = None
 
 def report_login(username: str, password: str, client_ip: str, status: str):
     text = """  
-🔐 <b>#Login</b>
+🔐 <b>#Авторизация</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
-<b>Password</b> : <code>{password}</code>
-<b>Client ip </b>: <code>{client_ip}</code>
+<b>Никнейм</b> : <code>{username}</code>
+<b>Пароль</b> : <code>{password}</code>
+<b>IP клиента </b>: <code>{client_ip}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>login status </b>: <code>{status}</code>  
     """.format(
